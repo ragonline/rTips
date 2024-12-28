@@ -1,0 +1,231 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.highlight {
+  font-weight: bold;
+  color: green;
+}
+
+.ended-bold {
+  font-weight: bold; /* Fetstil för hela raden */
+}
+
+.ended-green {
+  background-color: #d4edda; /* Grön bakgrund för matchnummer */
+}
+
+.result-table {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px;
+  border: 1px solid #ddd;
+  background-color: #f2f2f2;
+}
+
+.btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* Generella tabellinställningar */
+.result-table th {
+  padding: 8px;
+  text-align: center; /* Centrera rubriker */
+}
+
+.result-table td {
+  padding: 8px;
+}
+
+/* Högerjustera endast innehållet i utdelning och vinnare */
+.result-table td:nth-child(3), /* Utdelning */
+.result-table td:nth-child(4)  /* Vinnare */ {
+  text-align: right; /* Högerjustera */
+}
+
+/* Gråare färg för Folk 1, X, 2 */
+.folk-percentage {
+  color: #777; /* Mörkgrå färg */
+  font-size: 0.9em; /* Gör texten något mindre */
+}
+
+.diff-percentage {
+  color: #999; /* Mörkare färg än folk, men subtil */
+  font-size: 0.9em; /* Gör texten något mindre */
+  text-align: center; /* Högerjustera siffror */
+}
+
+.comparison-positive {
+  color: #28a745; /* Diskret grön färg för positiva värden */
+  font-weight: normal;
+  text-align: center; /* Högerjusterad */
+}
+
+.comparison-negative {
+  color: #dc3545; /* Diskret röd färg för negativa värden */
+  font-weight: normal;
+  text-align: center; /* Högerjusterad */
+}
+
+.comparison-neutral {
+  color: #6c757d; /* Grå färg för noll eller ej beräknade värden */
+  font-weight: normal;
+}
+
+.first-choice {
+  background-color: #d4edda; /* Ljusgrön */
+}
+
+.second-choice {
+  background-color: #fff3cd; /* Ljusgul */
+}
+
+.third-choice {
+  background-color: #f8d7da; /* Ljusröd */
+}
+
+/* Container */
+.overview-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigeringsknappar */
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Titel */
+#productName {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Info */
+.overview-info {
+  font-size: 1.1em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.overview-info p {
+  margin: 5px 0;
+}
+
+#currentNetSale {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Tabellen */
+#matchTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#matchTable th, #matchTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#matchTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Färgkoder för tecken */
+.green-sign {
+  background-color: #d4edda; /* Grön */
+  color: #777; /* Mörkgrå färg */
+  font-size: 0.9em; /* Gör texten något mindre */
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
+.red-sign {
+  background-color: #f8d7da; /* Röd */
+  color: #777; /* Mörkgrå färg */
+  font-size: 0.9em; /* Gör texten något mindre */
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
+.gray-sign {
+  background-color: #D3D3D3; /* Grå */
+  color: black;
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
+/* Överskrift och summeringar */
+h1, h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.summary {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+th.correct-header {
+  background-color: #f0f0f0; /* Ljusgrå bakgrund */
+  font-weight: bold;
+  text-align: center;
+}
+
+td.correct-count {
+  font-weight: bold;
+  color: green; /* Grön färg för rätt */
+}

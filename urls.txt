@@ -1,0 +1,46 @@
+
+https://www.sweclockers.com/forum/trad/1645429-oppet-api-for-stryktipset?p=2
+
+
+https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/result
+https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/4879/result
+
+https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/[omg%C3%A5ngsnummer]
+https://spela.svenskaspel.se/tt/matchlist/stryktipset
+
+https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/result
+https://api.spela.svenskaspel.se/draw/1/topptipsetfamily/draws/result
+https://api.spela.svenskaspel.se/draw/1/europatipset/draws/result
+https://api.spela.svenskaspel.se/draw/1/maltipset/draws/result
+https://api.spela.svenskaspel.se/draw/1/challenge/draws/result
+https://api.spela.svenskaspel.se/draw/1/bomben/draws/result
+https://api.spela.svenskaspel.se/draw/1/matchen/draws/result
+
+https://api.spela.svenskaspel.se/draw/1/stryktipset/draws/result
+
+https://api.spela.svenskaspel.se/draw/1/europatipset/draws/
+
+https://api.spela.svenskaspel.se/draw/1/topptipsetfamily/draws
+
+Använd "https://api.spela.svenskaspel.se/draw/" + product + "/draws" istället.
+
+https://www.atg.se/services/racinginfo/v1/api/calendar/day/2022-10-29
+
+Exakt vad är du ute efter? Resultat?
+
+Produkterna verkar följa detta format på api:er:
+Först vill du hämta infon om vilka lopp som går på en dag, vilken bana och state loppet är i etc och det gör du här:
+https://www.atg.se/services/racinginfo/v1/api/calendar/day/20...
+
+Sen med infon du hittar i förra api:et använder du denna för att hämta resultaten från de lopp du vill kolla på genom detta upplägg:
+https://www.atg.se/services/racinginfo/v1/api/games/ + vilket lopp du ville kolla på, t.ex. V3_2022-10-29_7_7 eller V75_2022-10-29_23_5. Dessa hittar du i racinginfo/v1/api/calendar/day/ och vilken dag du vill hämta från.
+
+Är man ute efter mer info kring racen denna dag så hämtar man loppanalyser etc här: siffran efter /zeta/ är vilken bana loppet går på.
+https://dmh.aws.atg.se/zeta/23/2022-10-29
+
+Info light om nästkommande V75 lopp
+https://www.atg.se/services/racinginfo/v1/api/products/V75
+
+Hoppas det är till nån hjälp.
+
+https://dmh.aws.atg.se/zeta/23/2022-10-29
