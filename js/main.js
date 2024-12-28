@@ -33,7 +33,6 @@ async function initialize() {
 
   matchesCounted = matchData.filter(match => match.hasStarted || match.isEnded).length;
 
-  updateMatchInfo(matchData, percentages, tipsRows);
   calculateResults(tipsRows, matchData, resultData, totalRows, matchesCounted);
 }
 
@@ -75,19 +74,20 @@ document.getElementById('fileInput').addEventListener('change', function (event)
       matchesCounted
     );
 
+
     console.log(`Total rows: ${totalRows.value}`); // Kontrollera värdet
 
     // Uppdatera URL med filens data (Base64)
     const encodedFile = btoa(fileContent); // Kryptera Base64
     const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileData=${encodedFile}`;
     window.history.replaceState(null, '', newUrl); // Uppdatera URL utan att ladda om sidan
+
+    document.getElementById('shareUrl').value = newUrl; // Använd den uppdaterade URL:en
+
   };
 
   reader.readAsText(file);
 });
-
-// Uppdatera URL-fältet efter uppladdning
-document.getElementById('shareUrl').value = window.location.href;
 
 // Funktion för att ladda och uppdatera omgångsdata
 async function loadDraw(drawNumber) {
