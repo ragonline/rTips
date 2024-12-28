@@ -4,6 +4,11 @@ import { updateOverview } from './overview.js';
 import { updateMatchInfo } from './matches.js';
 import { calculateResults } from './results.js';
 
+// Hämta URL-parametrar
+const urlParams = new URLSearchParams(window.location.search);
+const drawNumberParam = urlParams.get('drawNumber');
+const fileDataParam = urlParams.get('fileData');
+
 let tipsRows = [];
 let drawDetails = [];
 let matchData = [];
@@ -53,28 +58,36 @@ setInterval(async () => {
 
 // Läs in fil och bearbeta innehållet
 document.getElementById('fileInput').addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+  const file = event.target.files[0];
+  const reader = new FileReader();
 
-    reader.onload = function (e) {
-        const fileContent = e.target.result;
+  reader.onload = function (e) {
+    const fileContent = e.target.result;
 
-        // Skicka referensen till processRows
-        processRows(
-            fileContent,
-            percentages,
-            tipsRows,
-            totalRows, // Skickas som referens
-            matchData,
-            resultData,
-            matchesCounted
-        );
+    // Skicka referensen till processRows
+    processRows(
+      fileContent,
+      percentages,
+      tipsRows,
+      totalRows, // Skickas som referens
+      matchData,
+      resultData,
+      matchesCounted
+    );
 
-        console.log(`Total rows: ${totalRows.value}`); // Kontrollera värdet
-    };
+    console.log(`Total rows: ${totalRows.value}`); // Kontrollera värdet
 
-    reader.readAsText(file);
+    // Uppdatera URL med filens data (Base64)
+    const encodedFile = btoa(fileContent); // Kryptera Base64
+    const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileData=${encodedFile}`;
+    window.history.replaceState(null, '', newUrl); // Uppdatera URL utan att ladda om sidan
+  };
+
+  reader.readAsText(file);
 });
+
+// Uppdatera URL-fältet efter uppladdning
+document.getElementById('shareUrl').value = window.location.href;
 
 // Funktion för att ladda och uppdatera omgångsdata
 async function loadDraw(drawNumber) {
