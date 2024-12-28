@@ -20,12 +20,31 @@ let currentDrawNumber = 0;
 
 // Hämta data vid start
 async function initialize() {
+
+  // Hämta omgångsnummer från URL eller sätt till 0
+  currentDrawNumber = drawNumberParam ? parseInt(drawNumberParam, 10) : 0;
+
   const { drawDetails, matchData } = await fetchMatchData(currentDrawNumber);
 
   currentDrawNumber = drawDetails.drawNumber;
 
   // Uppdatera omgångsöversikten
   updateOverview(drawDetails);
+
+  // Om en fil är sparad, ladda den
+  const encodedFile = localStorage.getItem('uploadedFile');
+  if (encodedFile) {
+    const fileContent = atob(encodedFile); // Dekryptera Base64
+    processRows(
+      fileContent,
+      percentages,
+      tipsRows,
+      totalRows,
+      matchData,
+      resultData,
+      matchesCounted
+    );
+  }
 
   // Hämta resultatdata
   const resultData = await fetchResultData(drawDetails.drawState, currentDrawNumber);
@@ -57,34 +76,42 @@ setInterval(async () => {
 
 // Läs in fil och bearbeta innehållet
 document.getElementById('fileInput').addEventListener('change', function (event) {
+  localStorage.removeItem('uploadedFile'); // Rensa eventuell tidigare fil
   const file = event.target.files[0];
   const reader = new FileReader();
 
   reader.onload = function (e) {
     const fileContent = e.target.result;
 
-    // Uppdatera URL med filens data (Base64)
-    const encodedFile = btoa(fileContent); // Kryptera Base64
-    const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileData=${encodedFile}`;
-    window.history.replaceState(null, '', newUrl); // Uppdatera URL utan att ladda om sidan
+    try {
+      // Processa ny fil
+      processRows(
+        fileContent,
+        percentages,
+        tipsRows,
+        totalRows,
+        matchData,
+        resultData,
+        matchesCounted
+      );
 
-    document.getElementById('shareUrl').value = newUrl; // Använd den uppdaterade URL:en
+      // Spara Base64-data i localStorage
+      const encodedFile = btoa(fileContent);
+      localStorage.setItem('uploadedFile', encodedFile);
 
-    // Skicka referensen till processRows
-    processRows(
-      fileContent,
-      percentages,
-      tipsRows,
-      totalRows, // Skickas som referens
-      matchData,
-      resultData,
-      matchesCounted
-    );
+      // Uppdatera URL
+      const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}`;
+      window.history.replaceState(null, '', newUrl);
 
+      document.getElementById('shareUrl').value = newUrl;
 
-    console.log(`Total rows: ${totalRows.value}`); // Kontrollera värdet
-
+    } catch (error) {
+      alert('Ogiltig fil. Kontrollera formatet.');
+      console.error('Fel vid filuppladdning:', error);
+    }
   };
+
+  console.log(`Total rows: ${totalRows.value}`); // Kontrollera värdet
 
   reader.readAsText(file);
 });
