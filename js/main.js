@@ -63,6 +63,13 @@ document.getElementById('fileInput').addEventListener('change', function (event)
   reader.onload = function (e) {
     const fileContent = e.target.result;
 
+    // Uppdatera URL med filens data (Base64)
+    const encodedFile = btoa(fileContent); // Kryptera Base64
+    const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileData=${encodedFile}`;
+    window.history.replaceState(null, '', newUrl); // Uppdatera URL utan att ladda om sidan
+
+    document.getElementById('shareUrl').value = newUrl; // Använd den uppdaterade URL:en
+
     // Skicka referensen till processRows
     processRows(
       fileContent,
@@ -76,13 +83,6 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 
 
     console.log(`Total rows: ${totalRows.value}`); // Kontrollera värdet
-
-    // Uppdatera URL med filens data (Base64)
-    const encodedFile = btoa(fileContent); // Kryptera Base64
-    const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileData=${encodedFile}`;
-    window.history.replaceState(null, '', newUrl); // Uppdatera URL utan att ladda om sidan
-
-    document.getElementById('shareUrl').value = newUrl; // Använd den uppdaterade URL:en
 
   };
 
