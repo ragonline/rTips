@@ -22,8 +22,7 @@ let currentDrawNumber = 0;
 async function initialize() {
 
   // Hämta parametrar från URL
-  const drawNumberParam = urlParams.get('drawNumber');
-  const fileIdParam = urlParams.get('fileId');
+  const fileUrlParam = urlParams.get('fileUrl');
 
   // Hämta omgångsnummer eller sätt standardvärde
   currentDrawNumber = drawNumberParam ? parseInt(drawNumberParam, 10) : 0;
@@ -37,27 +36,28 @@ async function initialize() {
   updateOverview(drawDetails);
 
   // Ladda fil om fileId finns i URL
-  if (fileIdParam) {
-    const encodedFile = localStorage.getItem(`file_${fileIdParam}`); // Hämta fil från localStorage
+  if (fileUrlParam) {
+    console.log(`Hämtar fil från: ${fileUrlParam}`);
 
-    if (encodedFile) {
-      const fileContent = atob(encodedFile); // Dekryptera Base64
+    // Hämta filinnehåll från URL
+    fetch(decodeURIComponent(fileUrlParam))
+      .then(response => response.text())
+      .then(fileContent => {
+        processRows(
+          fileContent,
+          percentages,
+          tipsRows,
+          totalRows,
+          matchData,
+          resultData,
+          matchesCounted
+        );
 
-      processRows(
-        fileContent,
-        percentages,
-        tipsRows,
-        totalRows,
-        matchData,
-        resultData,
-        matchesCounted
-      );
-
-      console.log('Fil laddad från URL!');
-    } else {
-      alert('Ingen fil hittades för det angivna ID:t.');
-      console.error('Ingen fil hittades för ID:', fileIdParam);
-    }
+        console.log('Fil laddad från URL och bearbetad.');
+      })
+      .catch(error => {
+        console.error('Fel vid hämtning av fil från URL:', error);
+      });
   }
 
   // Hämta resultatdata
@@ -90,26 +90,26 @@ setInterval(async () => {
 
 // Läs in fil och bearbeta innehållet
 document.getElementById('fileInput').addEventListener('change', function (event) {
-  localStorage.removeItem('uploadedFile'); // Rensa eventuell tidigare fil
   const file = event.target.files[0];
   const reader = new FileReader();
 
   reader.onload = function (e) {
     const fileContent = e.target.result;
 
+    // Skapa ett unikt filnamn (t.ex. tidsstämpel)
+    const fileName = `${Date.now()}-${file.name}`;
+
+    // Lagra filen på GitHub Pages (här behöver vi en backend eller manuell uppladdning)
+    // För nuvarande implementation: Spara filen manuellt i `/uploads` och simulera URL
+    const fileUrl = `https://ragonline.github.io/rTips/uploads/${fileName}`;
+
     try {
 
-      // Skapa ett unikt ID för filen
-      const fileId = Date.now().toString(); // Exempel: tidsstämpel som ID
-      const encodedFile = btoa(fileContent); // Kryptera Base64
+      // Uppdatera URL med filens länk istället för innehåll
+      const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileUrl=${encodeURIComponent(fileUrl)}`;
+      window.history.replaceState(null, '', newUrl); // Uppdatera URL utan omladdning
 
-      // Spara filinnehållet i localStorage med ID
-      localStorage.setItem(`file_${fileId}`, encodedFile); // Nyckel: "file_abcd1234"
-
-      // Uppdatera URL med omgångsnummer och fil-ID
-      const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileId=${fileId}`;
-      document.getElementById('shareUrl').value = newUrl; // Uppdatera fältet
-      window.history.replaceState(null, '', newUrl);
+      console.log('Ny URL:', newUrl);
 
       // Processa ny fil
       processRows(
@@ -121,9 +121,6 @@ document.getElementById('fileInput').addEventListener('change', function (event)
         resultData,
         matchesCounted
       );
-
-      console.log('Fil sparad och processad!');
-
     } catch (error) {
       alert('Ogiltig fil. Kontrollera formatet.');
       console.error('Fel vid filuppladdning:', error);
