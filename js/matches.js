@@ -86,26 +86,32 @@ export function updateMatchInfo(matchData, percentages, tipsRows) {
 
     const rowClass = match.isEnded ? "ended-bold" : "";
     const numClass = match.isEnded ? "ended-green" : "";
+    // Kontrollera om diff-kolumner ska visas
+    const showDiff = localStorage.getItem('showDiff') === 'true';
 
     // Bygg rader
     let row = `
-      <tr class="${rowClass}">
-        <td class="${numClass}">${i + 1}</td>
-        <td>${match.homeTeam}</td>
-        <td>${match.homeScore}-${match.awayScore}</td>
-        <td>${match.awayTeam}</td>
-        <td>${match.autoSign}</td>
-        <td class="${match.autoSign === '1' ? autoSignClass : ''}">${percent1}%</td>
-        <td class="${match.autoSign === 'X' ? autoSignClass : ''}">${percentX}%</td>
-        <td class="${match.autoSign === '2' ? autoSignClass : ''}">${percent2}%</td>
-        <td class="${comparisonClass}">${comparison > 0 ? '+' : ''}${comparison}%</td>
-        <td class="folk-percentage">${match.folkOne}%</td>
-        <td class="folk-percentage">${match.folkX}%</td>
-        <td class="folk-percentage">${match.folkTwo}%</td>
-        <td class="diff-percentage">${diff1 > 0 ? '+' : ''}${diff1}%</td>
-        <td class="diff-percentage">${diffX > 0 ? '+' : ''}${diffX}%</td>
-        <td class="diff-percentage">${diff2 > 0 ? '+' : ''}${diff2}%</td>
-    `;
+  <tr class="${rowClass}">
+    <td class="${numClass}">${i + 1}</td>
+    <td>${match.homeTeam}</td>
+    <td>${match.homeScore}-${match.awayScore}</td>
+    <td>${match.awayTeam}</td>
+    <td>${match.autoSign}</td>
+    <td class="${match.autoSign === '1' ? autoSignClass : ''}">${percent1}%</td>
+    <td class="${match.autoSign === 'X' ? autoSignClass : ''}">${percentX}%</td>
+    <td class="${match.autoSign === '2' ? autoSignClass : ''}">${percent2}%</td>
+    <td class="${comparisonClass}">${comparison > 0 ? '+' : ''}${comparison}%</td>
+    <td class="folk-percentage">${match.folkOne}%</td>
+    <td class="folk-percentage">${match.folkX}%</td>
+    <td class="folk-percentage">${match.folkTwo}%</td>`;
+
+    // Endast inkludera diff-kolumner om checkbox är markerad
+    if (showDiff) {
+      row += `
+    <td class="diff-col">${diff1 > 0 ? '+' : ''}${diff1}%</td>
+    <td class="diff-col">${diffX > 0 ? '+' : ''}${diffX}%</td>
+    <td class="diff-col">${diff2 > 0 ? '+' : ''}${diff2}%</td>`;
+    }
 
     // Lägg till de närmaste raderna
     closestRows.forEach(rowObj => {
@@ -159,4 +165,5 @@ export function updateMatchInfo(matchData, percentages, tipsRows) {
       : 'comparison-neutral';
 
   vsSummary.innerHTML = `Systemet vs Folket: <span class="${summaryClass}">${totalComparison > 0 ? '+' : ''}${totalComparison.toFixed(0)}%</span>`;
+
 }

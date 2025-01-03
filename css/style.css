@@ -157,6 +157,27 @@ tbody tr:hover {
   gap: 10px; /* Mellanrum mellan knappar */
 }
 
+#diffToggleContainer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center; /* Centrera horisontellt */
+  align-items: center;     /* Centrera vertikalt (valfritt) */
+}
+
+/* Diff-rubriker */
+.diff-header {
+  text-align: center;
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Diff-kolumner */
+.diff-col {
+  color: #999;
+  font-size: 0.9em;
+  text-align: center;
+}
+
 /* ===== Markeringar och färger ===== */
 .highlight {
   font-weight: bold;

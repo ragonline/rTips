@@ -23,12 +23,12 @@
         <!-- Navigering -->
         <div class="navigation">
             <button id="prevDraw" class="nav-btn">← Föregående</button>
-            <h1 id="productName">Stryktipset</h1>
             <button id="nextDraw" class="nav-btn">Nästa →</button>
         </div>
 
         <!-- Omgångsinformation -->
         <div class="overview-info">
+            <h2 id="productName">Stryktipset</h2>
             <p id="regCloseDescription">Stängningstid: -</p>
             <p id="drawNumber">Omgångsnummer: -</p>
             <p id="currentNetSale">Omsättning: -</p>
@@ -48,6 +48,13 @@
         </div>
     </div>
 
+    <div id="diffToggleContainer">
+        <label for="toggleDiff">
+            <input type="checkbox" id="toggleDiff" checked/>
+            Visa differans mellan systemet och SvF
+        </label>
+    </div>
+
     <!-- Matchtabell -->
     <table id="matchTable">
         <thead id="matchHeader">
@@ -60,7 +67,7 @@
                 <th colspan="3">Systemet</th>
                 <th>vs</th>
                 <th colspan="3">Folkets Röst</th>
-                <th colspan="3">Diff</th>
+                <th colspan="3" class="diff-header">Diff</th>
                 <th colspan="10">Närmaste Rader</th>
             </tr>
             <tr>
@@ -76,9 +83,9 @@
                 <th>1</th>
                 <th>X</th>
                 <th>2</th>
-                <th>1</th>
-                <th>X</th>
-                <th>2</th>
+                <th class="diff-header">1</th>
+                <th class="diff-header">X</th>
+                <th class="diff-header">2</th>
             </tr>
         </thead>
         <tbody id="matchBody"></tbody>
