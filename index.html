@@ -15,43 +15,40 @@
 </head>
 
 <body>
+    <!-- Huvudrubrik -->
     <h1>rTips</h1>
 
+    <!-- Översiktscontainer -->
     <div id="overview" class="overview-container">
         <!-- Navigering -->
         <div class="navigation">
             <button id="prevDraw" class="nav-btn">← Föregående</button>
-            <h1 id="productName">Produktnamn</h1>
+            <h1 id="productName">Stryktipset</h1>
             <button id="nextDraw" class="nav-btn">Nästa →</button>
         </div>
 
         <!-- Omgångsinformation -->
         <div class="overview-info">
-            <p id="regCloseDescription">Stängningstid:</p>
-            <p id="drawNumber">Omgångsnummer:</p>
-            <p id="currentNetSale">Omsättning:</p>
+            <p id="regCloseDescription">Stängningstid: -</p>
+            <p id="drawNumber">Omgångsnummer: -</p>
+            <p id="currentNetSale">Omsättning: -</p>
         </div>
     </div>
 
-    <div style="margin-top: 10px;">
-        <!-- Visar filnamnet som används -->
-        <p id="loadedFileName" style="font-weight: bold; color: #333;">Ingen fil laddad</p>
+    <!-- Filhantering -->
+    <div class="file-controls">
+        <!-- Visar aktuell fil -->
+        <p id="loadedFileName" class="loaded-file center-text">Rättar fil: Ingen fil laddad</p>
 
-        <!-- Laddningsknappar -->
-        <h4>Ladda upp fil med rader:</h4>
-        <input type="file" id="fileInput" />
-        <button id="reloadButton">Nollställ</button>
+        <!-- Filuppladdning och återställning -->
+        <div class="upload-container">
+            <label for="fileInput" class="btn">Välj fil</label>
+            <input type="file" id="fileInput" style="display: none;" />
+            <button id="reloadButton" class="btn">Nollställ</button>
+        </div>
     </div>
 
-    <!-- Delningslänk  -->
-    <!--
-    <div style="margin-top: 10px;">
-        <label for="shareUrl">Dela länk:</label>
-        <input type="text" id="shareUrl" readonly style="width: 50%; margin-left: 10px;">
-        <button id="copyLinkButton">Kopiera länk</button>
-    </div>
-    -->
-
+    <!-- Matchtabell -->
     <table id="matchTable">
         <thead id="matchHeader">
             <tr>
@@ -87,20 +84,18 @@
         <tbody id="matchBody"></tbody>
     </table>
 
-    <div id="vsSummary" style="text-align: right; font-weight: normal; margin-top: 10px;"></div>
+    <!-- Sammanfattningar -->
+    <div class="summary-container">
+        <div id="vsSummary" class="summary-item"></div>
+        <div id="fatSummary" class="summary-item"></div>
+    </div>
 
-    <div id="fatSummary" style="text-align: right; font-weight: normal; margin-top: 10px;"></div>
+    <!-- Spelresultat -->
+    <h2>Spelresultat</h2>
+    <div id="matchCount" class="center-text"></div>
+    <h3 id="totalWinnings" class="summary">Total vinst: 0 kr</h3>
 
-    <h2>
-        <center>Spelresultat</center>
-    </h2>
-    <center>
-        <div id="matchCount"></div>
-    </center>
-
-    <h3 id="totalWinnings" style="text-align: right; font-weight: bold; margin-top: 10px;">
-    </h3>
-
+    <!-- Resultattabell -->
     <table class="result-table">
         <thead>
             <tr>
@@ -113,8 +108,9 @@
         <tbody id="resultsBody"></tbody>
     </table>
     <br>
-    <div id="rowCount"></div>
+    <div id="rowCount" class="result-info">Totalt antal rader i filspelet: 0</div>
 
+    <!-- JavaScript -->
     <script src="js/main.js" type="module"></script>
 </body>
 

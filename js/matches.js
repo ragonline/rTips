@@ -146,9 +146,9 @@ export function updateMatchInfo(matchData, percentages, tipsRows) {
   // Summering under tabellen
   const fatSummary = document.getElementById('fatSummary');
   fatSummary.innerHTML = `
-      <strong>F: ${firstChoices}</strong>,
-      <strong>A: ${secondChoices}</strong>,
-      <strong>T: ${thirdChoices}</strong>
+      F: ${firstChoices},
+      A: ${secondChoices},
+      T: ${thirdChoices}
     `;
 
   const vsSummary = document.getElementById('vsSummary');
@@ -158,5 +158,5 @@ export function updateMatchInfo(matchData, percentages, tipsRows) {
       ? 'comparison-negative'
       : 'comparison-neutral';
 
-  vsSummary.innerHTML = `<strong>Systemet vs Folket: <span class="${summaryClass}">${totalComparison > 0 ? '+' : ''}${totalComparison.toFixed(0)}%</span></strong>`;
+  vsSummary.innerHTML = `Systemet vs Folket: <span class="${summaryClass}">${totalComparison > 0 ? '+' : ''}${totalComparison.toFixed(0)}%</span>`;
 }
