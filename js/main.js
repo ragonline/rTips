@@ -96,6 +96,9 @@ document.getElementById('fileInput').addEventListener('change', function (event)
   reader.onload = function (e) {
     const fileContent = e.target.result;
 
+    // Visa filnamnet som används
+    document.getElementById('loadedFileName').innerText = `Använd fil: ${file.name}`;
+
     // Skapa ett unikt filnamn (t.ex. tidsstämpel)
     const fileName = `${Date.now()}-${file.name}`;
 
@@ -162,6 +165,13 @@ async function loadDraw(drawNumber) {
   }
 }
 
+
+// Reload-knapp - laddar om sidan utan fil
+document.getElementById('reloadButton').addEventListener('click', () => {
+  window.location.href = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}`;
+});
+
+// Kopiera länk-knapp
 document.getElementById('copyLinkButton').addEventListener('click', () => {
   const shareUrlField = document.getElementById('shareUrl');
   if (shareUrlField) {
