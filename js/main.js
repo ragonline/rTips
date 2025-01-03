@@ -109,6 +109,13 @@ document.getElementById('fileInput').addEventListener('change', function (event)
       const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileUrl=${encodeURIComponent(fileUrl)}`;
       window.history.replaceState(null, '', newUrl); // Uppdatera URL utan omladdning
 
+
+      // Uppdatera länkfältet med den nya URL:en
+      const shareUrlField = document.getElementById('shareUrl');
+      if (shareUrlField) {
+        shareUrlField.value = newUrl; // Visa den genererade URL:en
+      }
+
       console.log('Ny URL:', newUrl);
 
       // Processa ny fil
@@ -155,12 +162,13 @@ async function loadDraw(drawNumber) {
   }
 }
 
-document.getElementById('copyButton').addEventListener('click', () => {
-  const shareUrl = document.getElementById('shareUrl');
-  shareUrl.select(); // Markera texten i fältet
-  navigator.clipboard.writeText(shareUrl.value) // Kopiera till klippbordet
-    .then(() => alert('Länk kopierad!'))
-    .catch(err => alert('Kunde inte kopiera länken.'));
+document.getElementById('copyLinkButton').addEventListener('click', () => {
+  const shareUrlField = document.getElementById('shareUrl');
+  if (shareUrlField) {
+    shareUrlField.select(); // Markera texten
+    document.execCommand('copy'); // Kopiera till urklipp
+    alert('Länken har kopierats!'); // Visa bekräftelse
+  }
 });
 
 // Navigeringsfunktioner
