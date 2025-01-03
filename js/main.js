@@ -21,9 +21,14 @@ let currentDrawNumber = 0;
 // Hämta data vid start
 async function initialize() {
 
-  // Hämta omgångsnummer från URL eller sätt till 0
+  // Hämta parametrar från URL
+  const drawNumberParam = urlParams.get('drawNumber');
+  const fileIdParam = urlParams.get('fileId');
+
+  // Hämta omgångsnummer eller sätt standardvärde
   currentDrawNumber = drawNumberParam ? parseInt(drawNumberParam, 10) : 0;
 
+  // Hämta matchdata
   const { drawDetails, matchData } = await fetchMatchData(currentDrawNumber);
 
   currentDrawNumber = drawDetails.drawNumber;
@@ -31,19 +36,28 @@ async function initialize() {
   // Uppdatera omgångsöversikten
   updateOverview(drawDetails);
 
-  // Om en fil är sparad, ladda den
-  const encodedFile = localStorage.getItem('uploadedFile');
-  if (encodedFile) {
-    const fileContent = atob(encodedFile); // Dekryptera Base64
-    processRows(
-      fileContent,
-      percentages,
-      tipsRows,
-      totalRows,
-      matchData,
-      resultData,
-      matchesCounted
-    );
+  // Ladda fil om fileId finns i URL
+  if (fileIdParam) {
+    const encodedFile = localStorage.getItem(`file_${fileIdParam}`); // Hämta fil från localStorage
+
+    if (encodedFile) {
+      const fileContent = atob(encodedFile); // Dekryptera Base64
+
+      processRows(
+        fileContent,
+        percentages,
+        tipsRows,
+        totalRows,
+        matchData,
+        resultData,
+        matchesCounted
+      );
+
+      console.log('Fil laddad från URL!');
+    } else {
+      alert('Ingen fil hittades för det angivna ID:t.');
+      console.error('Ingen fil hittades för ID:', fileIdParam);
+    }
   }
 
   // Hämta resultatdata
@@ -84,6 +98,19 @@ document.getElementById('fileInput').addEventListener('change', function (event)
     const fileContent = e.target.result;
 
     try {
+
+      // Skapa ett unikt ID för filen
+      const fileId = Date.now().toString(); // Exempel: tidsstämpel som ID
+      const encodedFile = btoa(fileContent); // Kryptera Base64
+
+      // Spara filinnehållet i localStorage med ID
+      localStorage.setItem(`file_${fileId}`, encodedFile); // Nyckel: "file_abcd1234"
+
+      // Uppdatera URL med omgångsnummer och fil-ID
+      const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}&fileId=${fileId}`;
+      document.getElementById('shareUrl').value = newUrl; // Uppdatera fältet
+      window.history.replaceState(null, '', newUrl);
+
       // Processa ny fil
       processRows(
         fileContent,
@@ -95,15 +122,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
         matchesCounted
       );
 
-      // Spara Base64-data i localStorage
-      const encodedFile = btoa(fileContent);
-      localStorage.setItem('uploadedFile', encodedFile);
-
-      // Uppdatera URL
-      const newUrl = `${window.location.origin}${window.location.pathname}?drawNumber=${currentDrawNumber}`;
-      window.history.replaceState(null, '', newUrl);
-
-      document.getElementById('shareUrl').value = newUrl;
+      console.log('Fil sparad och processad!');
 
     } catch (error) {
       alert('Ogiltig fil. Kontrollera formatet.');
@@ -138,6 +157,14 @@ async function loadDraw(drawNumber) {
     console.error('Fel vid laddning av omgång:', error);
   }
 }
+
+document.getElementById('copyButton').addEventListener('click', () => {
+  const shareUrl = document.getElementById('shareUrl');
+  shareUrl.select(); // Markera texten i fältet
+  navigator.clipboard.writeText(shareUrl.value) // Kopiera till klippbordet
+    .then(() => alert('Länk kopierad!'))
+    .catch(err => alert('Kunde inte kopiera länken.'));
+});
 
 // Navigeringsfunktioner
 document.getElementById('prevDraw').addEventListener('click', () => {
