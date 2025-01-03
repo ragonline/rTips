@@ -97,7 +97,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
     const fileContent = e.target.result;
 
     // Visa filnamnet som används
-    document.getElementById('loadedFileName').innerText = `Använd fil: ${file.name}`;
+    document.getElementById('loadedFileName').innerText = `Rättar fil: ${file.name}`;
 
     // Skapa ett unikt filnamn (t.ex. tidsstämpel)
     const fileName = `${Date.now()}-${file.name}`;
@@ -172,14 +172,14 @@ document.getElementById('reloadButton').addEventListener('click', () => {
 });
 
 // Kopiera länk-knapp
-document.getElementById('copyLinkButton').addEventListener('click', () => {
-  const shareUrlField = document.getElementById('shareUrl');
-  if (shareUrlField) {
-    shareUrlField.select(); // Markera texten
-    document.execCommand('copy'); // Kopiera till urklipp
-    alert('Länken har kopierats!'); // Visa bekräftelse
-  }
-});
+//document.getElementById('copyLinkButton').addEventListener('click', () => {
+//  const shareUrlField = document.getElementById('shareUrl');
+//  if (shareUrlField) {
+//    shareUrlField.select(); // Markera texten
+//    document.execCommand('copy'); // Kopiera till urklipp
+//    alert('Länken har kopierats!'); // Visa bekräftelse
+//  }
+//});
 
 // Navigeringsfunktioner
 document.getElementById('prevDraw').addEventListener('click', () => {

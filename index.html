@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data:;
+    connect-src 'self' https://api.spela.svenskaspel.se https://ragonline.github.io/rTips/uploads/;">
     <title>rTips</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -30,18 +36,21 @@
     <div style="margin-top: 10px;">
         <!-- Visar filnamnet som används -->
         <p id="loadedFileName" style="font-weight: bold; color: #333;">Ingen fil laddad</p>
-      
+
         <!-- Laddningsknappar -->
         <h4>Ladda upp fil med rader:</h4>
         <input type="file" id="fileInput" />
-        <button id="reloadButton">Ladda om sidan</button>
-      </div>
+        <button id="reloadButton">Nollställ</button>
+    </div>
 
+    <!-- Delningslänk  -->
+    <!--
     <div style="margin-top: 10px;">
         <label for="shareUrl">Dela länk:</label>
         <input type="text" id="shareUrl" readonly style="width: 50%; margin-left: 10px;">
         <button id="copyLinkButton">Kopiera länk</button>
     </div>
+    -->
 
     <table id="matchTable">
         <thead id="matchHeader">
